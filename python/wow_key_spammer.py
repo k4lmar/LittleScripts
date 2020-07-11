@@ -1,3 +1,17 @@
+'''
+Req.:
+- Python 3.x
+- pynput lib (
+              install command in CMD:
+              python -m pip install pynput
+              )
+This script allow you to spamming a spell (a keyboard key)
+in games like World of Warcraft. The spam cycle is around 1/100 sec.
+It simulates press and release so if your spell cooldown is over,
+the spell will be casted again.
+This script is suited for Druid with ALT-1,2,3,4 formchange hotkeys.
+'''
+
 import pynput
 import time
 
@@ -13,14 +27,16 @@ class btnsmash():
         
     def on_press(self, key):
         try:
-            
+                                #exception keys, like move, backpack, spellbook...
             if (key.char not in "wasdbcmlpv"
                 and key.char!=None):
                 keychange=False
+                #If I change spammable key, the listener must be stopped.
                 if key.char!=self.btnkey:
                     self.listener.stop()
                     self.btnkey=key.char
                     keychange=True
+                #Whenever i use formchange, pause spam.
                 if (self.alt_pressed == True):
                     if (self.btnkey in '1234'):
                         self.btn=False
@@ -31,6 +47,7 @@ class btnsmash():
                                                      on_release=self.on_release)
                     self.listener.start()
         except:
+            #Left CTRL is spam start/pause button
             if key == self.keyb.Key.ctrl_l:
                 self.mainswitch=True
                 if self.btn==False:
@@ -38,6 +55,7 @@ class btnsmash():
                 else: self.btn=False
             elif key == self.keyb.Key.alt_l:
                 self.alt_pressed=True
+            #Enter is a safety "off spam" key, if I want to use ingame chat
             elif key==self.keyb.Key.enter:
                 if self.mainswitch==False:
                     pass
