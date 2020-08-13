@@ -1,6 +1,6 @@
 '''
 This is a simple bruteforce algorithm for
-printing out all combination of a character collection. 
+printing out all combination of a character collection.
 '''
 
 class BruteForce():
